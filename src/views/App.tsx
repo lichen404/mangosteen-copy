@@ -1,10 +1,11 @@
-import { defineComponent, ref } from "vue";
+import { defineComponent } from "vue";
 import { RouterLink, RouterView } from "vue-router";
+import s from "./App.module.scss";
 
 export const App = defineComponent({
   setup() {
     return () => (
-      <>
+      <div class={s.wrapper}>
         <header>导航</header>
         <ul>
           <li>
@@ -16,7 +17,7 @@ export const App = defineComponent({
         </ul>
         <RouterView />
         <footer>页脚</footer>
-      </>
+      </div>
     );
   },
 });

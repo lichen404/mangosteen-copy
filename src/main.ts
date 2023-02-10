@@ -1,6 +1,6 @@
 import { createApp } from "vue";
 import "./style.css";
-import { App } from "./App";
+import { App } from "./views/App";
 import { Foo } from "./views/Foo";
 import { Bar } from "./views/Bar";
 import { createRouter, createWebHashHistory } from "vue-router";
