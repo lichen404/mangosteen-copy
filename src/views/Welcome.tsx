@@ -1,7 +1,8 @@
-import { defineComponent } from "vue";
+import { defineComponent, Transition } from "vue";
 import { RouterView } from "vue-router";
 import s from "./Welcome.module.scss";
 import logo from "../assets/icons/mangosteen.svg";
+
 export const Welcome = defineComponent({
   setup: (props, context) => {
     return () => (
@@ -11,7 +12,15 @@ export const Welcome = defineComponent({
           <h1>山竹记账</h1>
         </header>
         <main class={s.main}>
-          <RouterView />
+          <RouterView>
+            {(obj: any) => {
+              return (
+                <Transition name="slide-fade">
+                  <obj.Component />
+                </Transition>
+              );
+            }}
+          </RouterView>
         </main>
       </div>
     );
