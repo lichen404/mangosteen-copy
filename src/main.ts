@@ -1,5 +1,5 @@
 import { createApp } from "vue";
-
+import "@svgstore";
 import { App } from "./App";
 import { routes } from "./config/routes";
 import { createRouter, createWebHashHistory } from "vue-router";

@@ -1,12 +1,12 @@
 import s from "./WelcomeLayout.module.scss";
 import { RouterLink } from "vue-router";
 import { WelcomeLayout } from "./WelcomeLayout";
-import cloud from "../../assets/icons/pig.svg";
+import { Icon } from "../Icon";
 
 export const Forth = () => (
   <WelcomeLayout>
     {{
-      icon: () => <img src={cloud} />,
+      icon: () => <Icon name="cloud" />,
       title: () => (
         <h2>
           云备份

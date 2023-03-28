@@ -1,12 +1,12 @@
 import s from "./WelcomeLayout.module.scss";
 import { RouterLink } from "vue-router";
 import { WelcomeLayout } from "./WelcomeLayout";
-import chart from "../../assets/icons/chart.svg";
+import { Icon } from "../Icon";
 
 export const Third = () => (
   <WelcomeLayout>
     {{
-      icon: () => <img src={chart} />,
+      icon: () => <Icon name="chart" />,
       title: () => (
         <h2>
           数据可视化
@@ -27,4 +27,4 @@ export const Third = () => (
   </WelcomeLayout>
 );
 
-Third.displayName = 'Third'
+Third.displayName = "Third";

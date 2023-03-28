@@ -1,12 +1,12 @@
 import s from "./WelcomeLayout.module.scss";
 import { RouterLink } from "vue-router";
 import { WelcomeLayout } from "./WelcomeLayout";
-import pig from "../../assets/icons/pig.svg";
+import { Icon } from "../Icon";
 
 export const First = () => (
   <WelcomeLayout>
     {{
-      icon: () => <img src={pig} />,
+      icon: () => <Icon name="pig" />,
       title: () => (
         <h2>
           会挣钱

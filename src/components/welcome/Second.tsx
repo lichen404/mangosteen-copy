@@ -1,12 +1,12 @@
 import s from "./WelcomeLayout.module.scss";
 import { RouterLink } from "vue-router";
 import { WelcomeLayout } from "./WelcomeLayout";
-import clock from "../../assets/icons/clock.svg";
+import { Icon } from "../Icon";
 
 export const Second = () => (
   <WelcomeLayout>
     {{
-      icon: () => <img src={clock} />,
+      icon: () => <Icon name="clock" />,
       title: () => (
         <h2>
           每日提醒
