@@ -1,0 +1,11 @@
+@import "../assets/style/vars.scss";
+
+.button {
+  border: 1px solid $buttonBg;
+  padding: 8px 16px;
+  background: $buttonBg;
+  color: $buttonTextColor;
+  font-size: $buttonFontSize;
+  border-radius: $buttonRadius;
+  height: $buttonHeight;
+}

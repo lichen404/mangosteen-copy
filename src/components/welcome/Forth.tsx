@@ -1,5 +1,5 @@
 import s from "./welcome.module.scss";
-import { Icon } from "../Icon";
+import { Icon } from "../../shared/Icon";
 
 export const Forth = () => (
   <div class={s.card}>

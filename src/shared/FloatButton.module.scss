@@ -1,0 +1,20 @@
+@import "../assets/style/vars.scss";
+
+.floatButton {
+  background: $floatButtonBg;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+
+  .icon {
+    width: 24px;
+    height: 24px;
+    fill: $floatButtonTextColor;
+  }
+}

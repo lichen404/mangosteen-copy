@@ -1,5 +1,5 @@
 import s from "./welcome.module.scss";
-import { Icon } from "../Icon";
+import { Icon } from "../../shared/Icon";
 import { FunctionalComponent } from "vue";
 
 export const First: FunctionalComponent = () => (
