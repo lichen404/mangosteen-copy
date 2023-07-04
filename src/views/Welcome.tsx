@@ -39,7 +39,7 @@ export const Welcome = defineComponent({
           <h1>山竹记账</h1>
         </header>
         <main class={s.main} ref={main}>
-          <RouterView>
+          <RouterView name="main">
             {({ Component }: { Component: VNode }) => {
               return (
                 <Transition
@@ -54,6 +54,9 @@ export const Welcome = defineComponent({
             }}
           </RouterView>
         </main>
+        <footer>
+          <RouterView name="footer"></RouterView>
+        </footer>
       </div>
     );
   },
