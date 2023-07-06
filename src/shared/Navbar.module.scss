@@ -1,0 +1,26 @@
+@import "../assets/style/vars.scss";
+
+.navbar {
+  background: linear-gradient(to bottom, #5d33be 0%, #8f4cd7 100%);
+  color: $navbarTextColor;
+  fill: $navbarTextColor;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 40px 16px 12px;
+}
+.title_wrapper {
+  font-size: 24px;
+  margin-left: 12px;
+}
+.icon_wrapper {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  > * {
+    max-width: 100%;
+    max-height: 100%;
+  }
+}
