@@ -3,21 +3,41 @@ import { First } from "../components/welcome/First";
 import { Forth } from "../components/welcome/Forth";
 import { Second } from "../components/welcome/Second";
 import { Third } from "../components/welcome/Third";
-import  {Start}  from "../views/Start";
+import { Start } from "../views/Start";
 import { Foo } from "../views/Foo";
 import { Welcome } from "../views/Welcome";
 import { FirstActions } from "../components/welcome/FirstActions";
 import { SecondActions } from "../components/welcome/SecondActions";
 import { ThirdActions } from "../components/welcome/ThirdActions";
 import { ForthActions } from "../components/welcome/ForthActions";
+import { ItemPage } from "../views/ItemPage";
+import { ItemCreate } from "../components/Item/ItemCreate";
+import { ItemList } from "../components/Item/ItemList";
 
 export const routes: RouteRecordRaw[] = [
   { path: "/", component: Foo },
   { path: "/start", component: Start },
   {
+    path:"/items",
+    component:ItemPage,
+    children:[
+      {
+        path:"",component:ItemList
+      },
+      {
+        path:"create",
+        component:ItemCreate
+      }
+    ]
+  },
+  {
     path: "/welcome",
     component: Welcome,
     children: [
+      {
+        path: "",
+        redirect: "/welcome/1",
+      },
       {
         path: "1",
         components: { main: First, footer: FirstActions },
