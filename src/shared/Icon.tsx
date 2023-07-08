@@ -11,7 +11,8 @@ export type IconName =
   | "charts"
   | "export"
   | "notify"
-  | "left";
+  | "left"
+  | "date";
 
 export const Icon = defineComponent({
   props: {

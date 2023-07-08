@@ -9,9 +9,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "dayjs": "^1.11.9",
     "sass": "^1.58.0",
     "svgo": "^3.0.2",
     "svgstore": "^3.0.1",
+    "vant": "3.4.8",
+    "vite-plugin-style-import": "1.4.1",
     "vue": "^3.2.37",
     "vue-router": "^4.1.3"
   },
