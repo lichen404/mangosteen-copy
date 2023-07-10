@@ -13,6 +13,9 @@ import { ForthActions } from "../components/welcome/ForthActions";
 import { ItemPage } from "../views/ItemPage";
 import { ItemCreate } from "../components/Item/ItemCreate";
 import { ItemList } from "../components/Item/ItemList";
+import { TagPage } from "../views/TagPage";
+import { TagCreate } from "../components/Tag/TagCreate";
+import { TagEdit } from "../components/Tag/TagEdit";
 
 export const routes: RouteRecordRaw[] = [
   { path: "/", component: Foo },
@@ -60,4 +63,16 @@ export const routes: RouteRecordRaw[] = [
       },
     ],
   },
+  {
+    path:"/tags",
+    component:TagPage,
+    children:[
+      {
+        path:'create',component:TagCreate,
+      },
+      {
+        path:'id',component:TagEdit
+      }
+    ]
+  }
 ];

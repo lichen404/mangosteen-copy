@@ -1,28 +1,26 @@
-@import "../../assets/style/vars.scss";
-
 .dateAndAmount {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 16px;
   font-family: monospace;
-  border-top: 1px solid $buttonBorderColor;
+  border-top: 1px solid var(--button-border-color);
   > .date {
     font-size: 12px;
     display: flex;
     align-items: center;
     justify-content: start;
-    color: $dateTextColor;
+    color: var(--date-text);
     .icon {
       width: 24px;
       height: 24px;
       margin-right: 8px;
-      fill: $dateTextColor;
+      fill: var(--date-text);
     }
   }
   > .amount {
     font-size: 20px;
-    color: $amountTextColor;
+    color: var(--amount-text);
   }
 }
 .buttons {
@@ -36,11 +34,11 @@
   grid-auto-columns: 1fr;
   gap: 1px;
   flex-wrap: wrap;
-  background: $buttonBorderColor;
-  border-top: 1px solid $buttonBorderColor;
+  background: var(--button-border-color);
+  border-top: 1px solid var(--button-border-color);
   > button {
     border: none;
-    background:$buttonBg;
+    background: var(--number-button-bg);
     &:nth-child(1) {
       grid-area: n1;
     }
@@ -79,8 +77,8 @@
     }
     &:nth-child(13) {
       grid-area: s;
-      background: $buttonBgImportant;
-      color: $buttonTextColorImportant;
+      background: var(--number-button-bg-important);
+      color: var(--number-button-text-important);
     }
   }
 }
