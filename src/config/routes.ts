@@ -28,7 +28,7 @@ export const routes: RouteRecordRaw[] = [
         path:"",component:ItemList
       },
       {
-        path:"create",
+        path:"create", 
         component:ItemCreate
       }
     ]
@@ -71,8 +71,8 @@ export const routes: RouteRecordRaw[] = [
         path:'create',component:TagCreate,
       },
       {
-        path:'id',component:TagEdit
+        path:':id/edit',component:TagEdit
       }
-    ]
+    ] 
   }
 ];

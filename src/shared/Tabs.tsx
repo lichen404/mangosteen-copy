@@ -6,8 +6,10 @@ export const Tabs = defineComponent({
       type: String as PropType<string>,
       required: false,
     },
+    classPrefix: {
+      type: String,
+    },
   },
-
   setup(props, context) {
     return () => {
       const array = context.slots.default?.();
@@ -19,22 +21,25 @@ export const Tabs = defineComponent({
           throw new Error("<Tabs> only accept <Tab> as children");
         }
       });
-
+      const cp = props.classPrefix;
       return (
-        <div class={s.tabs}>
-          <ol class={s.tabs_nav}>
+        <div class={[s.tabs, cp + "_tabs"]}>
+          <ol class={[s.tabs_nav, cp + "_tabs_nav"]}>
             {array.map((el) => (
               <li
-                class={props.selected === el.props?.title ? s.selected : ""}
+                class={[
+                  props.selected === el.props?.title
+                    ? [s.selected, cp + "selected"]
+                    : "",
+                  cp + "_tabs_nav_item",
+                ]}
                 onClick={() => context.emit("update:selected", el.props?.title)}
               >
                 {el.props?.title}
               </li>
             ))}
           </ol>
-          <div>
-            {array.find((el) => el.props?.title === props.selected)}
-          </div>
+          <div>{array.find((el) => el.props?.title === props.selected)}</div>
         </div>
       );
     };

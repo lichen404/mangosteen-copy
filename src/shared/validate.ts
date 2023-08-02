@@ -7,7 +7,7 @@ type Rule<T> = {
   message: string;
 } & ({ type: "required" } | { type: "pattern"; regex: RegExp });
 
-type Rules<T> = Rule<T>[];
+export type Rules<T> = Rule<T>[];
 
 export const validate = <T>(formData: T, rules: Rules<T>) => {
   type Errors = {
