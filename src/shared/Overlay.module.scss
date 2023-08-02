@@ -1,27 +1,26 @@
-@import "../assets/style/vars.scss";
-
 .mask {
   position: fixed;
-  z-index: $zIndexOverlay;
-  background: $overlayMaskBg;
-  top: $topSafeAreaHeight;
+  z-index: var(--z-index-overlay);
+  background: var(--overlay-mask-bg);
+  top: var(--top-safe-area-height);
   left: 0;
   width: 100%;
-  height: calc(100% - $topSafeAreaHeight);
+  height: calc(100% - var(--top-safe-area-height));
 }
 .overlay {
   position: fixed;
-  z-index: calc($zIndexOverlay + 1);
-  background: $overlayBg;
-  top: $topSafeAreaHeight;
+  z-index: calc(var(--z-index-overlay) + 1);
+  background: var(--overlay-bg);
+  top: var(--top-safe-area-height);
   left: 0;
   width: 16em;
-  height: calc(100% - $topSafeAreaHeight);
+  height: calc(100% - var(--top-safe-area-height));
+  color: var(--text);
 }
 .currentUser {
   padding: 32px 16px;
-  background: $overlayUserBg;
-  color: $overlayUserTextColor;
+  background: var(--overlay-user-bg);
+  color: var(--overlay-user-text);
 }
 .action {
   display: flex;
@@ -34,7 +33,11 @@
   }
   > .icon {
     margin-right: 12px;
-    width: 1.2em;
-    height: 1.2em;
   }
+}
+.icon{
+  width: 30px;
+  height: 30px;
+  position: relative;
+  top: 2px;
 }
