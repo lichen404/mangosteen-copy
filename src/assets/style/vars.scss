@@ -52,6 +52,7 @@ $buttonTextColorImportant: #fff;
 
 :root {
   --amount-text: #53a867;
+  --app-name-text: #7878FF;
   --bg: white;
   --button-bg-danger: #e10505;
   --button-bg: #5c33be;
@@ -94,7 +95,7 @@ $buttonTextColorImportant: #fff;
   --total-income: #fe7275;
   --total-text: white;
   --transition-duration: 0.5s;
-  --van-overlay-z-index: 64;
+  --van-overlay-z-index: 64 !important;
   --welcome-bg-end: #8f4cd7;
   --welcome-bg-start: #5d33be;
   --welcome-card-bg: white;

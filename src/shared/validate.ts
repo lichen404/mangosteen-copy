@@ -1,7 +1,3 @@
-interface FData {
-  [k: string]: string | number | null | undefined | FData;
-}
-
 type Rule<T> = {
   key: keyof T;
   message: string;
