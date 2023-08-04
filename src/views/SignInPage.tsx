@@ -36,7 +36,7 @@ export const SignInPage = defineComponent({
           {
             key:"code",
             type:"pattern",
-            regex:/^\d{6}$/,
+            regex:/^\d{6}$/, 
             message:"请输入六位数字"
           }
         ])
