@@ -1,10 +1,12 @@
-import { defineComponent, reactive } from "vue";
+import { defineComponent, reactive, ref } from "vue";
 import { MainLayout } from "../layouts/MainLayout";
 import { Icon } from "../shared/Icon";
 import s from "./SignInPage.module.scss";
 import { Form, FormItem } from "../shared/Form";
 import { Button } from "../shared/Button";
 import { validate } from "../shared/validate";
+import axios from "axios";
+import { http } from "../shared/Http";
 
 export const SignInPage = defineComponent({
   setup(props, context) {
@@ -16,6 +18,7 @@ export const SignInPage = defineComponent({
       email: [],
       code: [],
     });
+    const refValidationCode = ref<any>();
     const onSubmit = (e: Event) => {
       e.preventDefault();
       Object.assign(errors, {
@@ -34,16 +37,30 @@ export const SignInPage = defineComponent({
           },
           { key: "code", type: "required", message: "必填" },
           {
-            key:"code",
-            type:"pattern",
-            regex:/^\d{6}$/, 
-            message:"请输入六位数字"
-          }
+            key: "code",
+            type: "pattern",
+            regex: /^\d{6}$/,
+            message: "请输入六位数字",
+          },
         ])
       );
     };
 
-    const onClickSendValidationCode = ()=>{}
+    const onError = (error: any) => {
+      if (error.response.status === 422) {
+        Object.assign(errors, error.response.data.errors);
+      }
+      throw error;
+    };
+
+    const onClickSendValidationCode = async () => {
+      const res = await http
+        .post("/validation_codes", {
+          email: formData.email,
+        })
+        .catch(onError);
+      refValidationCode.value.startCount();
+    };
     return () => (
       <MainLayout>
         {{
@@ -64,6 +81,7 @@ export const SignInPage = defineComponent({
                   error={errors.email?.[0]}
                 />
                 <FormItem
+                  ref={refValidationCode}
                   label="验证码"
                   type="validationCode"
                   placeholder="请输入六位数字"
@@ -72,7 +90,7 @@ export const SignInPage = defineComponent({
                   onClick={onClickSendValidationCode}
                 />
                 <FormItem style={{ paddingTop: "96px" }}>
-                  <Button>登录</Button>
+                  <Button type="submit">登录</Button>
                 </FormItem>
               </Form>
             </div>

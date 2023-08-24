@@ -42,10 +42,33 @@ export const FormItem = defineComponent({
     options: {
       type: Array as PropType<{ label: string; value: string }[]>,
     },
+    onClick: {
+      type: Function as PropType<() => void>,
+    },
+    countFrom: {
+      type: Number,
+      default: 60,
+    },
   },
   emits: ["update:modelValue"],
   setup: (props, context) => {
     const refDateVisible = ref(false);
+    const timer = ref<number>();
+    const count = ref<number>(props.countFrom);
+    const isCounting = computed(() => !!timer.value);
+
+    const startCount = () => {
+      timer.value = setInterval(() => {
+        if (count.value > 0) {
+          count.value -= 1;
+        } else {
+          clearInterval(timer.value);
+          timer.value = undefined;
+          count.value = props.countFrom;
+        }
+      }, 1000);
+    };
+    context.expose({ startCount });
     const content = computed(() => {
       switch (props.type) {
         case "text":
@@ -70,8 +93,13 @@ export const FormItem = defineComponent({
                   context.emit("update:modelValue", e.target.value)
                 }
               />
-              <Button class={[s.formItem, s.button, s.validationCodeButton]}>
-                发送验证码
+              <Button
+                class={[s.formItem, s.button, s.validationCodeButton]}
+                onClick={props.onClick}
+              >
+                {isCounting.value
+                  ? `${count.value}秒后可重新发送`
+                  : "发送验证码"}
               </Button>
             </>
           );

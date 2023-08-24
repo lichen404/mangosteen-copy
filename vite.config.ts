@@ -14,4 +14,11 @@ export default defineConfig({
       resolves: [VantResolve()],
     }),
   ],
+  server:{
+    proxy:{
+      '/api/v1':{
+        target:"http://123.57.26.240:3000"
+      }
+    }
+  }
 });
