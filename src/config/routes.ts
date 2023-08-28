@@ -12,6 +12,7 @@ import { ThirdActions } from "../components/welcome/ThirdActions";
 import { ForthActions } from "../components/welcome/ForthActions";
 import { ItemPage } from "../views/ItemPage";
 import { ItemCreate } from "../components/Item/ItemCreate";
+import { http } from "../shared/Http";
 import { ItemList } from "../components/Item/ItemList";
 import { TagPage } from "../views/TagPage";
 import { TagCreate } from "../components/Tag/TagCreate";
@@ -23,21 +24,25 @@ export const routes: RouteRecordRaw[] = [
   { path: "/", component: Foo },
   { path: "/start", component: Start },
   {
-    path:"/items",
-    component:ItemPage,
-    children:[
+    path: "/items",
+    component: ItemPage,
+    children: [
       {
-        path:"",component:ItemList
+        path: "",
+        component: ItemList,
       },
       {
-        path:"create", 
-        component:ItemCreate
-      }
-    ]
+        path: "create",
+        component: ItemCreate,
+      },
+    ],
   },
   {
     path: "/welcome",
     component: Welcome,
+    beforeEnter: (to, from, next) => {
+      localStorage.getItem("skipFeatures") === "yes" ? next("/start") : next();
+    },
     children: [
       {
         path: "",
@@ -66,23 +71,25 @@ export const routes: RouteRecordRaw[] = [
     ],
   },
   {
-    path:"/tags",
-    component:TagPage,
-    children:[
+    path: "/tags",
+    component: TagPage,
+    children: [
       {
-        path:'create',component:TagCreate,
+        path: "create",
+        component: TagCreate,
       },
       {
-        path:':id/edit',component:TagEdit
-      }
-    ] 
+        path: ":id/edit",
+        component: TagEdit,
+      },
+    ],
   },
   {
-    path:"/sign_in",
-    component:SignInPage
+    path: "/sign_in",
+    component: SignInPage,
   },
   {
-    path:"/statistics",
-    component:StatisticsPage
-  }
+    path: "/statistics",
+    component: StatisticsPage,
+  },
 ];

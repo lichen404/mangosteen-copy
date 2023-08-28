@@ -4,14 +4,17 @@ import { Icon } from "../shared/Icon";
 import s from "./SignInPage.module.scss";
 import { Form, FormItem } from "../shared/Form";
 import { Button } from "../shared/Button";
-import { validate } from "../shared/validate";
-import axios from "axios";
+import { hasError, validate } from "../shared/validate";
 import { http } from "../shared/Http";
+import { useBool } from "../hooks/useBool";
+
+import { useRoute, useRouter } from "vue-router";
+import { refreshMe } from "../shared/me";
 
 export const SignInPage = defineComponent({
   setup(props, context) {
     const formData = reactive({
-      email: "",
+      email: "2725546002@qq.com",
       code: "",
     });
     const errors = reactive({
@@ -19,7 +22,15 @@ export const SignInPage = defineComponent({
       code: [],
     });
     const refValidationCode = ref<any>();
-    const onSubmit = (e: Event) => {
+    const router = useRouter();
+    const route = useRoute();
+    const {
+      ref: refDisabled,
+      toggle,
+      on: disabled,
+      off: enable,
+    } = useBool(false);
+    const onSubmit = async (e: Event) => {
       e.preventDefault();
       Object.assign(errors, {
         email: [],
@@ -44,6 +55,13 @@ export const SignInPage = defineComponent({
           },
         ])
       );
+      if (!hasError(errors)) {
+        const response = await http.post<{ jwt: string }>("/session", formData);
+        localStorage.setItem("jwt", response.data.jwt);
+        const returnTo = route.query.return_to?.toString();
+        refreshMe();
+        router.push(returnTo || "/");
+      }
     };
 
     const onError = (error: any) => {
@@ -54,11 +72,13 @@ export const SignInPage = defineComponent({
     };
 
     const onClickSendValidationCode = async () => {
+      disabled();
       const res = await http
         .post("/validation_codes", {
           email: formData.email,
         })
-        .catch(onError);
+        .catch(onError)
+        .finally(enable);
       refValidationCode.value.startCount();
     };
     return () => (
@@ -87,6 +107,7 @@ export const SignInPage = defineComponent({
                   placeholder="请输入六位数字"
                   v-model={formData.code}
                   error={errors.code?.[0]}
+                  disabled={refDisabled.value}
                   onClick={onClickSendValidationCode}
                 />
                 <FormItem style={{ paddingTop: "96px" }}>

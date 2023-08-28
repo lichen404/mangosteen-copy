@@ -1,11 +1,19 @@
-import s from './welcome.module.scss';
-import { RouterLink } from 'vue-router';
+import { SkipFeatures } from "../../shared/SkipFeatures";
+import s from "./welcome.module.scss";
+import { RouterLink } from "vue-router";
+
+const onClick = () => {
+  localStorage.setItem("skipFeatures", "yes");
+};
+
 export const ForthActions = () => (
   <div class={s.actions}>
-    <RouterLink class={s.fake} to="/start" >跳过</RouterLink>
-    <RouterLink to="/start" >完成</RouterLink>
-    <RouterLink class={s.fake} to="/start" >跳过</RouterLink>
+    <SkipFeatures class={s.fake} />
+    <span onClick={onClick}>
+      <RouterLink to="/start">完成</RouterLink>
+    </span>
+    <SkipFeatures class={s.fake} />
   </div>
-)
+);
 
-ForthActions.displayName = 'ForthActions'
+ForthActions.displayName = "ForthActions";

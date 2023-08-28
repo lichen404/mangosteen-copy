@@ -4,6 +4,7 @@ import { EmojiSelect } from "./EmojiSelect";
 import s from "./Form.module.scss";
 import dayjs from "dayjs";
 import { Button } from "./Button";
+import { getFriendlyError } from "./getFriendlyError";
 
 export const Form = defineComponent({
   props: {
@@ -49,6 +50,7 @@ export const FormItem = defineComponent({
       type: Number,
       default: 60,
     },
+    disabled: Boolean,
   },
   emits: ["update:modelValue"],
   setup: (props, context) => {
@@ -96,6 +98,7 @@ export const FormItem = defineComponent({
               <Button
                 class={[s.formItem, s.button, s.validationCodeButton]}
                 onClick={props.onClick}
+                disabled={props.disabled}
               >
                 {isCounting.value
                   ? `${count.value}秒后可重新发送`
@@ -168,7 +171,9 @@ export const FormItem = defineComponent({
             <div class={s.formItem_value}>{content.value}</div>
             {
               <div class={s.formItem_errorHint}>
-                <span>{props.error ?? " "}</span>
+                <span>
+                  {props.error ? getFriendlyError(props.error) : "　"}
+                </span>
               </div>
             }
           </label>
