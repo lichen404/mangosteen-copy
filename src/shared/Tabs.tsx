@@ -10,7 +10,7 @@ export const Tabs = defineComponent({
       type: String,
     },
   },
-  emits:['update:selected'],
+  emits: ["update:selected"],
   setup(props, context) {
     return () => {
       const array = context.slots.default?.();
@@ -40,7 +40,11 @@ export const Tabs = defineComponent({
               </li>
             ))}
           </ol>
-          <div>{array.find((el) => el.props?.title === props.selected)}</div>
+          <div>
+            {array.map((el) => (
+              <div v-show={el.props?.title === props.selected}>{el}</div>
+            ))}
+          </div>
         </div>
       );
     };
