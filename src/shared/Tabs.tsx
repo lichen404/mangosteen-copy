@@ -9,6 +9,7 @@ export const Tabs = defineComponent({
     classPrefix: {
       type: String,
     },
+    renderOnSelect: Boolean,
   },
   emits: ["update:selected"],
   setup(props, context) {
