@@ -9,7 +9,7 @@ export const Tabs = defineComponent({
     classPrefix: {
       type: String,
     },
-    renderOnSelect: Boolean,
+    rerenderOnSelect: Boolean,
   },
   emits: ["update:selected"],
   setup(props, context) {
@@ -41,11 +41,17 @@ export const Tabs = defineComponent({
               </li>
             ))}
           </ol>
-          <div>
-            {array.map((el) => (
-              <div v-show={el.props?.title === props.selected}>{el}</div>
-            ))}
-          </div>
+          {props.rerenderOnSelect ? (
+            <div key={props.selected}>
+              {array.find((item) => item.props?.title === props.selected)}
+            </div>
+          ) : (
+            <div>
+              {array.map((item) => (
+                <div v-show={item.props?.title === props.selected}>{item}</div>
+              ))}
+            </div>
+          )}
         </div>
       );
     };

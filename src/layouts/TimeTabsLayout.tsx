@@ -26,6 +26,10 @@ export const TimeTabsLayout = defineComponent({
       type: Object as PropType<typeof component>,
       required: true,
     },
+    rerenderOnSwitchTab: {
+      type: Boolean,
+      default: false,
+    },
   },
   setup(props, context) {
     const refSelected = ref<"本月" | "上月" | "今年" | "自定义">("本月");
@@ -69,6 +73,7 @@ export const TimeTabsLayout = defineComponent({
                     refOverlayVisible.value = true;
                   }
                 }}
+                rerenderOnSelect={props.rerenderOnSwitchTab}
               >
                 <Tab title="本月">
                   <props.component
