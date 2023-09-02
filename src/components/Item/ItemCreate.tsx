@@ -1,10 +1,15 @@
-import { defineComponent, onMounted, PropType, reactive, ref } from "vue";
+import { defineComponent, PropType, reactive } from "vue";
 import { MainLayout } from "../../layouts/MainLayout";
 import { Icon } from "../../shared/Icon";
 import { Tabs, Tab } from "../../shared/Tabs";
 import { InputPad } from "./InputPad";
 import s from "./ItemCreate.module.scss";
 import { Tags } from "./Tags";
+import { AxiosError } from "axios";
+import { Dialog } from "vant";
+import { http } from "../../shared/Http";
+import { useRouter } from "vue-router";
+import { BackIcon } from "../../shared/BackIcon";
 
 export const ItemCreate = defineComponent({
   props: {
@@ -13,26 +18,58 @@ export const ItemCreate = defineComponent({
     },
   },
   setup: (props, context) => {
-    const refKind = ref("支出");
-    const refTagId = ref<number>();
+    const formData = reactive({
+      kind: "支出",
+      tags_id: [],
+      amount: 0,
+      happen_at: new Date().toISOString(),
+    });
+    const router = useRouter();
+    const onError = (error: AxiosError<ResourceError>) => {
+      if (error.response?.status === 422) {
+        Dialog.alert({
+          title: "出错",
+          message: Object.values(error.response.data.errors).join("\n"),
+        });
+      }
+      throw error;
+    };
+    const onSubmit = async () => {
+      await http
+        .post<Resource<Item>>("/items", formData, {
+          params: { _mock: "itemCreate" },
+        })
+        .catch(onError);
+      router.push("/items");
+    };
     return () => (
       <MainLayout class={s.layout}>
         {{
           title: () => "记一笔",
-          icon: () => <Icon name="left" class={s.navIcon} />,
+          icon: () => <BackIcon />,
           default: () => (
             <>
               <div class={s.wrapper}>
-                <Tabs v-model:selected={refKind.value} class={s.tabs}>
+                <Tabs v-model:selected={formData.kind} class={s.tabs}>
                   <Tab title="支出" class={s.tags_wrapper}>
-                    <Tags kind="expenses" v-model:selected={refTagId.value} />
+                    <Tags
+                      kind="expenses"
+                      v-model:selected={formData.tags_id[0]}
+                    />
                   </Tab>
                   <Tab title="收入" class={s.tags_wrapper}>
-                    <Tags kind="income" v-model:selected={refTagId.value} />
+                    <Tags
+                      kind="income"
+                      v-model:selected={formData.tags_id[0]}
+                    />
                   </Tab>
                 </Tabs>
                 <div class={s.inputPad_wrapper}>
-                  <InputPad/>
+                  <InputPad
+                    v-model:amount={formData.amount}
+                    v-model:happenAt={formData.happen_at}
+                    onSubmit={onSubmit}
+                  />
                 </div>
               </div>
             </>

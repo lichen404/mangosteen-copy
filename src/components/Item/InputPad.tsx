@@ -6,13 +6,14 @@ import day from "dayjs";
 
 export const InputPad = defineComponent({
   props: {
-    name: {
-      type: String as PropType<string>,
+    happenAt: String,
+    amount: Number,
+    onSubmit: {
+      type: Function as PropType<() => void>,
     },
   },
+  emits: ["update:happenAt", "update:amount"],
   setup: (props, context) => {
-    const now = new Date();
-    const refDate = ref<Date>(now);
     const appendText = (n: number | string) => {
       const nString = n.toString();
       const dotIndex = refAmount.value.indexOf(".");
@@ -115,13 +116,19 @@ export const InputPad = defineComponent({
           refAmount.value = "0";
         },
       },
-      { text: "提交", onClick: () => {} },
+      {
+        text: "提交",
+        onClick: () => {
+          context.emit("update:amount", parseFloat(refAmount.value));
+          props.onSubmit?.();
+        },
+      },
     ];
     const refDatePickerVisible = ref(false);
     const showDatePicker = () => (refDatePickerVisible.value = true);
     const hideDatePicker = () => (refDatePickerVisible.value = false);
     const setDate = (date: Date) => {
-      refDate.value = date;
+      context.emit("update:happenAt", date.toISOString());
       hideDatePicker();
     };
     const refAmount = ref("0");
@@ -132,14 +139,14 @@ export const InputPad = defineComponent({
             <Icon name="date" class={s.icon} />
             <span>
               <span onClick={showDatePicker}>
-                {day(refDate.value).format('YYYY-MM-DD')}
+                {day(props.happenAt).format("YYYY-MM-DD")}
               </span>
               <Popup
                 position="bottom"
                 v-model:show={refDatePickerVisible.value}
               >
                 <DatetimePicker
-                  value={refDate.value}
+                  value={props.happenAt}
                   type="date"
                   title="选择年月日"
                   onConfirm={setDate}

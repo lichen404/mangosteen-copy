@@ -11,11 +11,11 @@ const component = defineComponent({
   props: {
     startDate: {
       type: String,
-      required: true,
+      required: false,
     },
     endDate: {
       type: String,
-      required: true,
+      required: false,
     },
   },
 });
@@ -30,10 +30,7 @@ export const TimeTabsLayout = defineComponent({
   setup(props, context) {
     const refSelected = ref<"本月" | "上月" | "今年" | "自定义">("本月");
     const day = dayjs();
-    const customTime = reactive([
-      dayjs().format("YYYY-MM-DD"),
-      dayjs().format("YYYY-MM-DD"),
-    ]);
+    const customTime = reactive([undefined, undefined]);
     const timeList = [
       [
         day.startOf("month").format("YYYY-MM-DD"),
@@ -90,7 +87,7 @@ export const TimeTabsLayout = defineComponent({
                   />
                 </Tab>
                 <Tab title="自定义时间">
-                  <props.component startDate={customTime[0]} endDate={customTime[1]} />
+                  <props.component/>
                 </Tab>
               </Tabs>
               <Overlay show={refOverlayVisible.value} class={s.overlay}>
@@ -110,7 +107,14 @@ export const TimeTabsLayout = defineComponent({
                       />
                       <FormItem>
                         <div class={s.actions}>
-                          <button type="button">取消</button>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              refOverlayVisible.value = false;
+                            }}
+                          >
+                            取消
+                          </button>
                           <button type="submit">确认</button>
                         </div>
                       </FormItem>
