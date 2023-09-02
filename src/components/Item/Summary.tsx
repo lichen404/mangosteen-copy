@@ -1,8 +1,18 @@
-import { defineComponent, onMounted, PropType, ref } from "vue";
+import {
+  defineComponent,
+  onMounted,
+  PropType,
+  reactive,
+  ref,
+  watch,
+} from "vue";
 import { Button } from "../../shared/Button";
 import { FloatButton } from "../../shared/FloatButton";
 import { http } from "../../shared/Http";
 import s from "./Summary.module.scss";
+import { Money } from "../../shared/Money";
+import { Datetime } from "../../shared/DateTime";
+
 export const Summary = defineComponent({
   props: {
     startDate: {
@@ -20,7 +30,7 @@ export const Summary = defineComponent({
       if (!props.startDate || !props.endDate) {
         return;
       }
-       const response = await http.get<Resources<Item>>("/items", {
+      const response = await http.get<Resources<Item>>("/items", {
         happen_after: props.startDate,
         happen_before: props.endDate,
         page: page.value,
@@ -33,6 +43,57 @@ export const Summary = defineComponent({
       page.value += 1;
     };
     onMounted(fetchItems);
+
+    watch(
+      () => [props.startDate, props.endDate],
+      () => {
+        items.value = [];
+        hasMore.value = false;
+        page.value = 0;
+        fetchItems();
+      }
+    );
+    const itemsBalance = reactive({
+      expenses: 0,
+      income: 0,
+      balance: 0,
+    });
+    const fetchItemsBalance = async () => {
+      if (!props.startDate || !props.endDate) {
+        return;
+      }
+      const response = await http.get("/items/balance", {
+        happen_after: props.startDate,
+        happen_before: props.endDate,
+        page: page.value + 1,
+        _mock: "itemIndexBalance",
+      });
+      Object.assign(itemsBalance, response.data);
+    };
+    onMounted(fetchItemsBalance);
+    watch(
+      () => [props.startDate, props.endDate],
+      () => {
+        Object.assign(itemsBalance, {
+          expenses: 0,
+          income: 0,
+          balance: 0,
+        });
+        fetchItemsBalance();
+      }
+    );
+    onMounted(async () => {
+      if (!props.startDate || !props.endDate) {
+        return;
+      }
+      const response = await http.get("/items/balance", {
+        happen_after: props.startDate,
+        happen_before: props.endDate,
+        page: page.value + 1,
+        _mock: "itemIndexBalance",
+      });
+      Object.assign(itemsBalance, response.data);
+    });
     return () => (
       <div class={s.wrapper}>
         {items.value ? (
@@ -40,31 +101,33 @@ export const Summary = defineComponent({
             <ul class={s.total}>
               <li>
                 <span>收入</span>
-                <span>128</span>
+                <Money value={itemsBalance.income} />
               </li>
               <li>
                 <span>支出</span>
-                <span>99</span>
+                <Money value={itemsBalance.expenses} />
               </li>
               <li>
                 <span>净收入</span>
-                <span>39</span>
+                <Money value={itemsBalance.balance} />
               </li>
             </ul>
             <ol class={s.list}>
               {items.value.map((item) => (
                 <li>
                   <div class={s.sign}>
-                    <span>{item.tags_id[0]}</span>
+                    <span>{item.tags![0].sign}</span>
                   </div>
                   <div class={s.text}>
                     <div class={s.tagAndAmount}>
-                      <span class={s.tag}>{item.tags_id[0]}</span>
+                      <span class={s.tag}>{item.tags![0].name}</span>
                       <span class={s.amount}>
-                        ￥<>{item.amount}</>
+                        ￥<Money value={item.amount} />
                       </span>
                     </div>
-                    <div class={s.time}>{item.happen_at}</div>
+                    <div class={s.time}>
+                      <Datetime value={item.happen_at} />
+                    </div>
                   </div>
                 </li>
               ))}

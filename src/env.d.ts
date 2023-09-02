@@ -1,36 +1,42 @@
-type JSONValue = null | boolean | string | number | JSONValue[] | Record<string, JSONValue>
+type JSONValue =
+  | null
+  | boolean
+  | string
+  | number
+  | JSONValue[]
+  | Record<string, JSONValue>;
 
 type Tag = {
-    id: number,
-    user_id: number,
-    name: string,
-    sign: string,
-    kind: expenses | income
-  }
+  id: number;
+  user_id: number;
+  name: string;
+  sign: string;
+  kind: expenses | income;
+};
 
-  
 type Resources<T = any> = {
-  resources: T[]
+  resources: T[];
   pager: {
-    page: number,
-    per_page: number,
-    count: number
-  }
-}
+    page: number;
+    per_page: number;
+    count: number;
+  };
+};
 
 type ResourceError = {
-  errors: Record<string, string[]>
-}
+  errors: Record<string, string[]>;
+};
 
 type Resource<T> = {
-  resource: T
-}
+  resource: T;
+};
 
 type Item = {
-  id: number
-  user_id: number
-  amount: number
-  tags_id: number[]
-  happen_at: string
-  kind: expenses | income
-}
+  id: number;
+  user_id: number;
+  amount: number;
+  tags_id: number[];
+  tags?: Tag[];
+  happen_at: string;
+  kind: expenses | income;
+};

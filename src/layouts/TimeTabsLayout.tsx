@@ -46,10 +46,12 @@ export const TimeTabsLayout = defineComponent({
       ],
     ];
     const refOverlayVisible = ref(false);
+    const tempTime = reactive([undefined, undefined]);
 
     const onSubmitCustomTime = (e: Event) => {
       e.preventDefault();
       refOverlayVisible.value = false;
+      Object.assign(customTime, tempTime);
     };
 
     return () => (
@@ -87,7 +89,10 @@ export const TimeTabsLayout = defineComponent({
                   />
                 </Tab>
                 <Tab title="自定义时间">
-                  <props.component/>
+                  <props.component
+                    startDate={customTime[0]}
+                    endDate={customTime[1]}
+                  />
                 </Tab>
               </Tabs>
               <Overlay show={refOverlayVisible.value} class={s.overlay}>
@@ -97,12 +102,12 @@ export const TimeTabsLayout = defineComponent({
                     <Form onSubmit={onSubmitCustomTime}>
                       <FormItem
                         label="开始时间"
-                        v-model={customTime[0]}
+                        v-model={tempTime[0]}
                         type="date"
                       />
                       <FormItem
                         label="结束时间"
-                        v-model={customTime[1]}
+                        v-model={tempTime[1]}
                         type="date"
                       />
                       <FormItem>
