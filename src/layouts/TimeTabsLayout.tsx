@@ -30,6 +30,10 @@ export const TimeTabsLayout = defineComponent({
       type: Boolean,
       default: false,
     },
+    hideThisYear: {
+      type: Boolean,
+      default: false,
+    },
   },
   setup(props, context) {
     const refSelected = ref<"本月" | "上月" | "今年" | "自定义">("本月");
@@ -65,41 +69,74 @@ export const TimeTabsLayout = defineComponent({
           icon: () => <OverlayIcon />,
           default: () => (
             <>
-              <Tabs
-                v-model:selected={refSelected.value}
-                classPrefix="customTabs"
-                onUpdate:selected={(value) => {
-                  if (value === "自定义时间") {
-                    refOverlayVisible.value = true;
-                  }
-                }}
-                rerenderOnSelect={props.rerenderOnSwitchTab}
-              >
-                <Tab title="本月">
-                  <props.component
-                    startDate={timeList[0][0]}
-                    endDate={timeList[0][1]}
-                  />
-                </Tab>
-                <Tab title="上月">
-                  <props.component
-                    startDate={timeList[1][0]}
-                    endDate={timeList[1][1]}
-                  />
-                </Tab>
-                <Tab title="今年">
-                  <props.component
-                    startDate={timeList[2][0]}
-                    endDate={timeList[2][1]}
-                  />
-                </Tab>
-                <Tab title="自定义时间">
-                  <props.component
-                    startDate={customTime[0]}
-                    endDate={customTime[1]}
-                  />
-                </Tab>
-              </Tabs>
+              {props.hideThisYear ? (
+                <Tabs
+                  v-model:selected={refSelected.value}
+                  classPrefix="customTabs"
+                  onUpdate:selected={(value) => {
+                    if (value === "自定义时间") {
+                      refOverlayVisible.value = true;
+                    }
+                  }}
+                  rerenderOnSelect={props.rerenderOnSwitchTab}
+                >
+                  <Tab title="本月">
+                    <props.component
+                      startDate={timeList[0][0]}
+                      endDate={timeList[0][1]}
+                    />
+                  </Tab>
+                  <Tab title="上月">
+                    <props.component
+                      startDate={timeList[1][0]}
+                      endDate={timeList[1][1]}
+                    />
+                  </Tab>
+
+                  <Tab title="自定义时间">
+                    <props.component
+                      startDate={customTime[0]}
+                      endDate={customTime[1]}
+                    />
+                  </Tab>
+                </Tabs>
+              ) : (
+                <Tabs
+                  v-model:selected={refSelected.value}
+                  classPrefix="customTabs"
+                  onUpdate:selected={(value) => {
+                    if (value === "自定义时间") {
+                      refOverlayVisible.value = true;
+                    }
+                  }}
+                  rerenderOnSelect={props.rerenderOnSwitchTab}
+                >
+                  <Tab title="本月">
+                    <props.component
+                      startDate={timeList[0][0]}
+                      endDate={timeList[0][1]}
+                    />
+                  </Tab>
+                  <Tab title="上月">
+                    <props.component
+                      startDate={timeList[1][0]}
+                      endDate={timeList[1][1]}
+                    />
+                  </Tab>
+                  <Tab title="今年">
+                    <props.component
+                      startDate={timeList[2][0]}
+                      endDate={timeList[2][1]}
+                    />
+                  </Tab>
+                  <Tab title="自定义时间">
+                    <props.component
+                      startDate={customTime[0]}
+                      endDate={customTime[1]}
+                    />
+                  </Tab>
+                </Tabs>
+              )}
               <Overlay show={refOverlayVisible.value} class={s.overlay}>
                 <div class={s.overlay_inner}>
                   <header>请选择时间</header>

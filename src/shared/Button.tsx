@@ -45,7 +45,7 @@ export const Button = defineComponent({
     return () => (
       <button
         class={[s.button, s[props.level]]}
-        disabled={props.disabled}
+        disabled={_disabled.value}
         type={props.type}
         onClick={onClick}
       >
