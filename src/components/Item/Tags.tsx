@@ -16,11 +16,14 @@ export const Tags = defineComponent({
   emits: ["update:selected"],
   setup: (props, context) => {
     const { tags, hasMore, page, fetchTags } = useTags((page) => {
-      return http.get<Resources<Tag>>("/tags", {
-        kind: props.kind,
-        page,
-        _mock: "tagIndex",
-      });
+      return http.get<Resources<Tag>>(
+        "/tags",
+        {
+          kind: props.kind,
+          page,
+        },
+        { _mock: "tagIndex", _autoLoading: true }
+      );
     });
     const timer = ref<number>();
     const currentTag = ref<HTMLDivElement>();
