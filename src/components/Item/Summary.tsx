@@ -98,7 +98,7 @@ export const Summary = defineComponent({
       const response = await http.get("/items/balance", {
         happen_after: props.startDate,
         happen_before: props.endDate,
-        page: page.value + 1,
+        page: page.value,
         _mock: "itemIndexBalance",
       });
       Object.assign(itemsBalance, response.data);

@@ -80,20 +80,20 @@ export const TimeTabsLayout = defineComponent({
                   }}
                   rerenderOnSelect={props.rerenderOnSwitchTab}
                 >
-                  <Tab title="本月">
+                  <Tab title="本月" value="本月">
                     <props.component
                       startDate={timeList[0][0]}
                       endDate={timeList[0][1]}
                     />
                   </Tab>
-                  <Tab title="上月">
+                  <Tab title="上月" value="上月">
                     <props.component
                       startDate={timeList[1][0]}
                       endDate={timeList[1][1]}
                     />
                   </Tab>
 
-                  <Tab title="自定义时间">
+                  <Tab title="自定义时间" value="自定义时间">
                     <props.component
                       startDate={customTime[0]}
                       endDate={customTime[1]}
@@ -111,25 +111,25 @@ export const TimeTabsLayout = defineComponent({
                   }}
                   rerenderOnSelect={props.rerenderOnSwitchTab}
                 >
-                  <Tab title="本月">
+                  <Tab title="本月" value="本月">
                     <props.component
                       startDate={timeList[0][0]}
                       endDate={timeList[0][1]}
                     />
                   </Tab>
-                  <Tab title="上月">
+                  <Tab title="上月" value="上月">
                     <props.component
                       startDate={timeList[1][0]}
                       endDate={timeList[1][1]}
                     />
                   </Tab>
-                  <Tab title="今年">
+                  <Tab title="今年" value="今年">
                     <props.component
                       startDate={timeList[2][0]}
                       endDate={timeList[2][1]}
                     />
                   </Tab>
-                  <Tab title="自定义时间">
+                  <Tab title="自定义时间" value="自定义时间">
                     <props.component
                       startDate={customTime[0]}
                       endDate={customTime[1]}

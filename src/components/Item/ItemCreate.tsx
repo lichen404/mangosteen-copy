@@ -10,6 +10,7 @@ import { Dialog } from "vant";
 import { http } from "../../shared/Http";
 import { useRouter } from "vue-router";
 import { BackIcon } from "../../shared/BackIcon";
+import { hasError, validate } from "../../shared/validate";
 
 export const ItemCreate = defineComponent({
   props: {
@@ -18,11 +19,17 @@ export const ItemCreate = defineComponent({
     },
   },
   setup: (props, context) => {
-    const formData = reactive({
-      kind: "支出",
-      tags_id: [],
+    const formData = reactive<Partial<Item>>({
+      kind: "expenses",
+      tag_ids: [],
       amount: 0,
       happen_at: new Date().toISOString(),
+    });
+    const errors = reactive<FormErrors<typeof formData>>({
+      kind: [],
+      tag_ids: [],
+      amount: [],
+      happen_at: [],
     });
     const router = useRouter();
     const onError = (error: AxiosError<ResourceError>) => {
@@ -35,6 +42,47 @@ export const ItemCreate = defineComponent({
       throw error;
     };
     const onSubmit = async () => {
+      Object.assign(errors, {
+        kind: [],
+        tag_ids: [],
+        amount: [],
+        happen_at: [],
+      });
+      Object.assign(
+        errors,
+        validate(formData, [
+          {
+            key: "kind",
+            type: "required",
+            message: "类型必填",
+          },
+          {
+            key: "amount",
+            type: "required",
+            message: "金额必填",
+          },
+          {
+            key: "happen_at",
+            type: "required",
+            message: "时间必填",
+          },
+          {
+            key: "amount",
+            type: "notEqual",
+            value: 0,
+            message: "金额不能等于0",
+          },
+        ])
+      );
+      if (!hasError(errors)) {
+        Dialog.alert({
+          title: "出错",
+          message: Object.values(errors)
+            .filter((i) => i.length)
+            .join("\n"),
+        });
+        return;
+      }
       await http
         .post<Resource<Item>>("/items", formData, {
           _mock: "itemCreate",
@@ -52,16 +100,16 @@ export const ItemCreate = defineComponent({
             <>
               <div class={s.wrapper}>
                 <Tabs v-model:selected={formData.kind} class={s.tabs}>
-                  <Tab title="支出" class={s.tags_wrapper}>
+                  <Tab title="支出" value="expenses" class={s.tags_wrapper}>
                     <Tags
                       kind="expenses"
-                      v-model:selected={formData.tags_id[0]}
+                      v-model:selected={formData.tag_ids![0]}
                     />
                   </Tab>
-                  <Tab title="收入" class={s.tags_wrapper}>
+                  <Tab title="收入" value="income" class={s.tags_wrapper}>
                     <Tags
                       kind="income"
-                      v-model:selected={formData.tags_id[0]}
+                      v-model:selected={formData.tag_ids![0]}
                     />
                   </Tab>
                 </Tabs>

@@ -70,9 +70,10 @@ export class Http {
 
 const mock = (response: AxiosResponse) => {
   if (
-    location.hostname !== "localhost" &&
-    location.hostname !== "127.0.0.1" &&
-    location.hostname !== "192.168.3.57"
+    true ||
+    (location.hostname !== "localhost" &&
+      location.hostname !== "127.0.0.1" &&
+      location.hostname !== "192.168.3.57")
   ) {
     return false;
   }
@@ -112,26 +113,29 @@ http.instance.interceptors.request.use((config) => {
   if (jwt) {
     config.headers!.Authorization = `Bearer ${jwt}`;
   }
-  if(config._autoLoading){
+  if (config._autoLoading) {
     Toast.loading({
-      message:"加载中",
-      forbidClick:true,
-      duration:0
-    })
+      message: "加载中",
+      forbidClick: true,
+      duration: 0,
+    });
   }
   return config;
 });
-http.instance.interceptors.response.use((response)=>{
-  if(response.config._autoLoading){
-    Toast.clear();
+http.instance.interceptors.response.use(
+  (response) => {
+    if (response.config._autoLoading) {
+      Toast.clear();
+    }
+    return response;
+  },
+  (error: AxiosError) => {
+    if (error.response?.config._autoLoading) {
+      Toast.clear();
+    }
+    throw error;
   }
-  return response
-}, (error: AxiosError)=>{
-  if(error.response?.config._autoLoading){
-    Toast.clear();
-  }
-  throw error
-})
+);
 
 http.instance.interceptors.response.use(
   (response) => {
