@@ -32,12 +32,12 @@ export const Summary = defineComponent({
       return () => <div>请先选择时间范围</div>;
     }
     const itemStore = useItemStore(["items", props.startDate, props.endDate])();
-    const { reset, fetchItems,fetchNextPage } = itemStore;
+    const {fetchItems,fetchNextPage } = itemStore;
     useAfterMe(() => fetchItems(props.startDate, props.endDate));
     watch(
       () => [props.startDate, props.endDate],
       () => {
-        reset();
+        itemStore.$reset();
         fetchItems();
       }
     );

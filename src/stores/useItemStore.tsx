@@ -7,11 +7,6 @@ export const useItemStore = (id: string[]) =>
     const items = ref<Item[]>([]);
     const hasMore = ref(false);
     const page = ref(0);
-    const reset = () => {
-      items.value = [];
-      hasMore.value = false;
-      page.value = 0;
-    };
     const _fetch = async (
       firstPage: boolean,
       startDate?: string,
@@ -51,7 +46,6 @@ export const useItemStore = (id: string[]) =>
       items,
       hasMore,
       page,
-      reset,
       fetchItems,
       fetchNextPage,
     };
