@@ -74,7 +74,7 @@ export const ItemCreate = defineComponent({
           },
         ])
       );
-      if (!hasError(errors)) {
+      if (hasError(errors)) {
         Dialog.alert({
           title: "出错",
           message: Object.values(errors)

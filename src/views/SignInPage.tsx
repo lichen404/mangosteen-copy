@@ -9,11 +9,12 @@ import { http } from "../shared/Http";
 import { useBool } from "../hooks/useBool";
 
 import { useRoute, useRouter } from "vue-router";
-import { refreshMe } from "../shared/me";
 import { BackIcon } from "../shared/BackIcon";
+import { useMeStore } from "../stores/useMeStore";
 
 export const SignInPage = defineComponent({
   setup(props, context) {
+    const meStore = useMeStore();
     const formData = reactive({
       email: "2725546002@qq.com",
       code: "",
@@ -64,7 +65,7 @@ export const SignInPage = defineComponent({
         );
         localStorage.setItem("jwt", response.data.jwt);
         const returnTo = route.query.return_to?.toString();
-        refreshMe();
+        meStore.refreshMe();
         router.push(returnTo || "/");
       }
     };
