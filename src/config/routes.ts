@@ -21,7 +21,7 @@ import { StatisticsPage } from "../views/StatisticsPage";
 import { ComingSoon } from "../shared/ComingSoon";
 
 export const routes: RouteRecordRaw[] = [
-  { path: "/", component: Foo },
+  { path: "/", redirect: '/welcome' },
   {
     path: "/items",
     component: ItemPage,
