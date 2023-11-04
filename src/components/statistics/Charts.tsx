@@ -47,18 +47,17 @@ export const Charts = defineComponent({
 
       for (let i = 0; i < n; i++) {
         const time = dayjs(props.startDate).add(i, "day").unix() * 1000;
-
         if (
           data1.value[data1Index] &&
-          new Date(data1.value[data1Index].happen_at).getTime() === time
+          dayjs(data1.value[data1Index].happen_at).unix() * 1000 === time
         ) {
           array.push([
-            new Date(time).toISOString(),
+            dayjs(time).toISOString(),
             data1.value[data1Index].amount,
           ]);
           data1Index += 1;
         } else {
-          array.push([new Date(time).toISOString(), 0]);
+          array.push([dayjs(time).toISOString(), 0]);
         }
       }
       return array as [string, number][];
@@ -68,8 +67,8 @@ export const Charts = defineComponent({
       const response = await http.get<{ groups: Data1; summary: number }>(
         "/items/summary",
         {
-          happen_after: props.startDate,
-          happen_before: props.endDate,
+          happened_after: props.startDate,
+          happened_before: props.endDate,
           kind: kind.value,
           group_by: "happen_at",
         },
@@ -86,7 +85,7 @@ export const Charts = defineComponent({
     const data2 = ref<Data2>([]);
     const betterData2 = computed<{ name: string; value: number }[]>(() =>
       data2.value.map((item) => ({
-        name: item.tag.name,
+        name: item?.tag?.name || "未分类",
         value: item.amount,
       }))
     );
@@ -94,8 +93,8 @@ export const Charts = defineComponent({
       const response = await http.get<{ groups: Data2; summary: number }>(
         "/items/summary",
         {
-          happen_after: props.startDate,
-          happen_before: props.endDate,
+          happened_after: props.startDate,
+          happened_before: props.endDate,
           kind: kind.value,
           group_by: "tag_id",
         },
