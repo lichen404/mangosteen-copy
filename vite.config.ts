@@ -6,6 +6,7 @@ import styleImport, { VantResolve } from 'vite-plugin-style-import';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base:"",
   plugins: [
     vue(),
     vueJsx({ mergeProps: true, transformOn: true }),
@@ -17,7 +18,7 @@ export default defineConfig({
   server:{
     proxy:{
       '/api/v1':{
-        target:"http://39.105.97.152:3000"
+        target:"http://123.57.27.189:3000"
       }
     }
   }

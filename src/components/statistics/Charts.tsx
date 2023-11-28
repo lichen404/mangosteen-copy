@@ -49,7 +49,11 @@ export const Charts = defineComponent({
         const time = dayjs(props.startDate).add(i, "day").unix() * 1000;
         if (
           data1.value[data1Index] &&
-          dayjs(data1.value[data1Index].happen_at).unix() * 1000 === time
+          dayjs(
+            data1.value[data1Index].happen_at + "T00:00:00.000+0800"
+          ).unix() *
+            1000 ===
+            time
         ) {
           array.push([
             dayjs(time).toISOString(),
