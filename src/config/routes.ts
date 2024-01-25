@@ -3,28 +3,22 @@ import { First } from "../components/welcome/First";
 import { Forth } from "../components/welcome/Forth";
 import { Second } from "../components/welcome/Second";
 import { Third } from "../components/welcome/Third";
-import { Foo } from "../views/Foo";
-import { Welcome } from "../views/Welcome";
 import { FirstActions } from "../components/welcome/FirstActions";
 import { SecondActions } from "../components/welcome/SecondActions";
 import { ThirdActions } from "../components/welcome/ThirdActions";
 import { ForthActions } from "../components/welcome/ForthActions";
-import { ItemPage } from "../views/ItemPage";
+
 import { ItemCreate } from "../components/Item/ItemCreate";
-import { http } from "../shared/Http";
+
 import { ItemList } from "../components/Item/ItemList";
-import { TagPage } from "../views/TagPage";
-import { TagCreate } from "../components/Tag/TagCreate";
-import { TagEdit } from "../components/Tag/TagEdit";
-import { SignInPage } from "../views/SignInPage";
-import { StatisticsPage } from "../views/StatisticsPage";
+
 import { ComingSoon } from "../shared/ComingSoon";
 
 export const routes: RouteRecordRaw[] = [
-  { path: "/", redirect: '/welcome' },
+  { path: "/", redirect: "/welcome" },
   {
     path: "/items",
-    component: ItemPage,
+    component: () => import("../views/ItemPage"),
     children: [
       {
         path: "",
@@ -38,7 +32,7 @@ export const routes: RouteRecordRaw[] = [
   },
   {
     path: "/welcome",
-    component: Welcome,
+    component: () => import("../views/Welcome"),
     beforeEnter: (to, from, next) => {
       localStorage.getItem("skipFeatures") === "yes" ? next("/items") : next();
     },
@@ -71,25 +65,25 @@ export const routes: RouteRecordRaw[] = [
   },
   {
     path: "/tags",
-    component: TagPage,
+    component: () => import("../views/TagPage"),
     children: [
       {
         path: "create",
-        component: TagCreate,
+        component: () => import("../components/Tag/TagCreate"),
       },
       {
         path: ":id/edit",
-        component: TagEdit,
+        component: () => import("../components/Tag/TagEdit"),
       },
     ],
   },
   {
     path: "/sign_in",
-    component: SignInPage,
+    component: () => import("../views/SignInPage"),
   },
   {
     path: "/statistics",
-    component: StatisticsPage,
+    component: () => import("../views/StatisticsPage"),
   },
   {
     path: "/export",

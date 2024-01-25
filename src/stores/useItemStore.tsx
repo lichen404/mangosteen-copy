@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 import { http } from "../shared/Http";
 
-export const useItemStore = (id: string[]) =>
+export const useItemStore = (id: (string | undefined)[]) =>
   defineStore(id.join("-"), () => {
     const items = ref<Item[]>([]);
     const hasMore = ref(false);
@@ -42,11 +42,17 @@ export const useItemStore = (id: string[]) =>
       _fetch(false, startDate, endDate);
     const fetchItems = (startDate?: string, endDate?: string) =>
       _fetch(true, startDate, endDate);
+    const reset = () => {
+      items.value = [];
+      hasMore.value = false;
+      page.value = 0;
+    };
     return {
       items,
       hasMore,
       page,
       fetchItems,
       fetchNextPage,
+      reset,
     };
   });

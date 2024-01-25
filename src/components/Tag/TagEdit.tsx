@@ -4,12 +4,13 @@ import { Button } from "../../shared/Button";
 import s from "./Tag.module.scss";
 import { TagForm } from "./TagForm";
 import { BackIcon } from "../../shared/BackIcon";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import { http } from "../../shared/Http";
 import { Dialog } from "vant";
-export const TagEdit = defineComponent({
+const TagEdit = defineComponent({
   setup: (props, context) => {
     const route = useRoute();
+    const router = useRouter();
     const numberId = parseInt(route.params.id!.toString());
     if (Number.isNaN(numberId)) {
       return () => <div>id 不存在</div>;
@@ -26,6 +27,7 @@ export const TagEdit = defineComponent({
         },
         { _autoLoading: true }
       );
+      router.back();
     };
     return () => (
       <MainLayout>
@@ -58,3 +60,5 @@ export const TagEdit = defineComponent({
     );
   },
 });
+
+export default TagEdit;

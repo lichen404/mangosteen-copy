@@ -8,7 +8,7 @@ export const Center = defineComponent({
   },
   setup(props, context) {
     const extraClass =
-      props.direction === "horizontal" ? "horizontal" : "vertical";
+      props.direction === "horizontal" ? s.horizontal : s.vertical;
     return () => (
       <div class={[s.center, extraClass]}>{context.slots.default?.()}</div>
     );

@@ -85,7 +85,7 @@ export const Charts = defineComponent({
     };
 
     onMounted(fetchData1);
-    watch(() => kind.value, fetchData1);
+    watch(() => [kind.value, props.startDate, props.endDate], fetchData1);
     const data2 = ref<Data2>([]);
     const betterData2 = computed<{ name: string; value: number }[]>(() =>
       data2.value.map((item) => ({
@@ -107,7 +107,7 @@ export const Charts = defineComponent({
       data2.value = response.data.groups;
     };
     onMounted(fetchData2);
-    watch(() => kind.value, fetchData2);
+    watch(() => [kind.value, props.startDate, props.endDate], fetchData2);
     const betterData3 = computed<
       { tag: Tag; amount: number; percent: number }[]
     >(() => {

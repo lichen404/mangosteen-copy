@@ -11,7 +11,7 @@ const pushMap: Record<string, string> = {
   welcome4: "/items",
 };
 
-export const Welcome = defineComponent({
+ const Welcome = defineComponent({
   setup: () => {
     const main = ref<HTMLElement | null>(null);
     const { direction, swiping } = useSwipe(main, {
@@ -61,3 +61,5 @@ export const Welcome = defineComponent({
     );
   },
 });
+
+export default Welcome;

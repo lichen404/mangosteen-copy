@@ -12,7 +12,7 @@ import { useRoute, useRouter } from "vue-router";
 import { BackIcon } from "../shared/BackIcon";
 import { useMeStore } from "../stores/useMeStore";
 
-export const SignInPage = defineComponent({
+const SignInPage = defineComponent({
   setup(props, context) {
     const meStore = useMeStore();
     const formData = reactive({
@@ -131,3 +131,5 @@ export const SignInPage = defineComponent({
     );
   },
 });
+
+export default SignInPage;
