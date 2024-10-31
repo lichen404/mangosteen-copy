@@ -42,15 +42,18 @@ export const TimeTabsLayout = defineComponent({
     const timeList = [
       [
         day.startOf("month").format("YYYY-MM-DD"),
-        day.endOf("month").format("YYYY-MM-DD"),
+        day.endOf("month").add(1,"day").format("YYYY-MM-DD"),
       ],
       [
-        day.add(-1, "month").startOf("month").format("YYYY-MM-DD"),
-        day.add(-1, "month").endOf("month").format("YYYY-MM-DD"),
+        day
+          .add(-1, "month")
+          .startOf("month")
+          .format("YYYY-MM-DD"),
+        day.add(-1, "month").endOf("month").add(1, "day").format("YYYY-MM-DD"),
       ],
       [
         day.startOf("year").format("YYYY-MM-DD"),
-        day.endOf("year").format("YYYY-MM-DD"),
+        day.endOf("year").add(1, "day").format("YYYY-MM-DD"),
       ],
     ];
     const refOverlayVisible = ref(false);
