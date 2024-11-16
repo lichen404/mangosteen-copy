@@ -61,7 +61,7 @@ const SignInPage = defineComponent({
         const response = await http.post<{ jwt: string }>(
           "/session",
           formData,
-          { _autoLoading: true }
+          { _autoLoading: true, _mock: 'session' }
         );
         localStorage.setItem("jwt", response.data.jwt);
         const returnTo = route.query.return_to?.toString();
