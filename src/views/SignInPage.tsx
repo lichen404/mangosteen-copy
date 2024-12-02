@@ -11,6 +11,7 @@ import { useBool } from "../hooks/useBool";
 import { useRoute, useRouter } from "vue-router";
 import { BackIcon } from "../shared/BackIcon";
 import { useMeStore } from "../stores/useMeStore";
+import { Toast } from "vant";
 
 const SignInPage = defineComponent({
   setup(props, context) {
@@ -58,15 +59,20 @@ const SignInPage = defineComponent({
         ])
       );
       if (!hasError(errors)) {
-        const response = await http.post<{ jwt: string }>(
-          "/session",
-          formData,
-          { _autoLoading: true, _mock: 'session' }
-        );
-        localStorage.setItem("jwt", response.data.jwt);
-        const returnTo = route.query.return_to?.toString();
-        meStore.refreshMe();
-        router.push(returnTo || "/");
+        const response = await http
+          .post<{ jwt: string }>("/session", formData, {
+            _autoLoading: true,
+            _mock: "session",
+          })
+          .catch((e) => {
+            Toast.fail(e.response.data.error);
+          });
+        if (response) {
+          localStorage.setItem("jwt", response.data.jwt);
+          const returnTo = route.query.return_to?.toString();
+          meStore.refreshMe();
+          router.push(returnTo || "/");
+        }
       }
     };
 
