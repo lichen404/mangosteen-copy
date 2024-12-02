@@ -98,7 +98,7 @@ export const FormItem = defineComponent({
               <Button
                 class={[s.formItem, s.button, s.validationCodeButton]}
                 onClick={props.onClick}
-                disabled={props.disabled}
+                disabled={props.disabled || isCounting.value}
               >
                 {isCounting.value
                   ? `${count.value}秒后可重新发送`
