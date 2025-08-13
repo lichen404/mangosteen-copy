@@ -20,7 +20,10 @@ const SignInPage = defineComponent({
       email: "2725546002@qq.com",
       code: "",
     });
-    const errors = reactive({
+    const errors = reactive<{
+      email: string[],
+      code: string[]
+    }>({
       email: [],
       code: [],
     });
@@ -46,7 +49,7 @@ const SignInPage = defineComponent({
           {
             key: "email",
             type: "pattern",
-            regex: /.+@.+/,
+            regex: /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/,
             message: "必须是邮箱地址",
           },
           { key: "code", type: "required", message: "必填" },
@@ -85,6 +88,23 @@ const SignInPage = defineComponent({
 
     const onClickSendValidationCode = async () => {
       disabled();
+      Object.assign(errors, {
+        email: [],
+        code: [],
+      });
+      Object.assign(errors, validate(formData, [
+        { key: "email", type: "required", message: "必填" },
+        {
+          key: "email",
+          type: "pattern",
+          regex: /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/,
+          message: "必须是邮箱地址",
+        },
+      ]))
+      if (errors.email && errors.email.length > 0) {
+        enable();
+        return;
+      }
       const res = await http
         .post(
           "/validation_codes",
