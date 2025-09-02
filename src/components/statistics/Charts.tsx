@@ -68,20 +68,22 @@ export const Charts = defineComponent({
     });
 
     const fetchData1 = async () => {
-      const response = await http.get<{ groups: Data1; summary: number }>(
-        "/items/summary",
-        {
-          happened_after: props.startDate,
-          happened_before: props.endDate,
-          kind: kind.value,
-          group_by: "happen_at",
-        },
-        {
-          _mock: "itemSummary",
-          _autoLoading: true,
-        }
-      );
-      data1.value = response.data.groups;
+      if (props.startDate && props.endDate) {
+        const response = await http.get<{ groups: Data1; summary: number }>(
+          "/items/summary",
+          {
+            happened_after: props.startDate,
+            happened_before: props.endDate,
+            kind: kind.value,
+            group_by: "happen_at",
+          },
+          {
+            _mock: "itemSummary",
+            _autoLoading: true,
+          }
+        );
+        data1.value = response.data.groups;
+      }
     };
 
     onMounted(fetchData1);
@@ -94,17 +96,19 @@ export const Charts = defineComponent({
       }))
     );
     const fetchData2 = async () => {
-      const response = await http.get<{ groups: Data2; summary: number }>(
-        "/items/summary",
-        {
-          happened_after: props.startDate,
-          happened_before: props.endDate,
-          kind: kind.value,
-          group_by: "tag_id",
-        },
-        { _mock: "itemSummary" }
-      );
-      data2.value = response.data.groups;
+      if (props.startDate && props.endDate) {
+        const response = await http.get<{ groups: Data2; summary: number }>(
+          "/items/summary",
+          {
+            happened_after: props.startDate,
+            happened_before: props.endDate,
+            kind: kind.value,
+            group_by: "tag_id",
+          },
+          { _mock: "itemSummary" }
+        );
+        data2.value = response.data.groups;
+      }
     };
     onMounted(fetchData2);
     watch(() => [kind.value, props.startDate, props.endDate], fetchData2);
